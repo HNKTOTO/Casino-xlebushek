@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Золота Савана · Casino</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root{--bg:#12060a;--p1:#1d0b12;--p2:#2a0f1a;--gold:#e6c35c;--em:#10b981;--txt:#f5ecd9;--mut:#a8929a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+  body{margin:0;color:var(--txt);font-family:Inter,system-ui,sans-serif;background-color:var(--bg);background-image:radial-gradient(1200px 600px at 50% -10%,#4a1020,#12060a 60%);background-attachment:fixed;min-height:100vh}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:30}
+  h2{font:800 20px Cinzel,serif;color:var(--gold);margin:0 0 8px}.mut{color:var(--mut)}
+  .hdr{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid #e6c35c33;background:#0d0508ee;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+  .logo{font:800 18px Cinzel,serif;letter-spacing:.12em;background:linear-gradient(#fff3c4,#d4a62a);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .bal{text-align:center}.bal small{color:var(--mut);font-size:10px;letter-spacing:.2em}
+  #bal{font:800 28px Cinzel,serif;color:var(--gold);text-shadow:0 0 18px #e6c35c66;display:inline-block}.bal em{font-style:normal;color:var(--em);font-size:11px;margin-left:4px}
+  .pop{animation:pop .6s}@keyframes pop{40%{transform:scale(1.18);text-shadow:0 0 30px #34d399}}
+  #tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;max-width:860px;margin:0 auto}
+  .tab{flex:none;padding:8px 14px;border-radius:999px;border:1px solid #e6c35c44;background:var(--p1);color:var(--txt);cursor:pointer;transition:.2s}
+  .tab.on{background:linear-gradient(135deg,#f6dd8a,#a8841f);color:#2a0f1a;box-shadow:0 0 18px #e6c35c66;font-weight:700}
+  main{max-width:860px;margin:0 auto;padding:0 16px 40px}
+  .card{background:linear-gradient(160deg,var(--p2),var(--p1));border:1px solid #e6c35c33;border-radius:18px;padding:16px;box-shadow:0 10px 40px #0008,inset 0 1px #fff1;text-align:center}
+  .g{display:none}.g.on{display:block;animation:fade .4s}@keyframes fade{from{opacity:0;transform:translateY(8px)}}
+  .btn{padding:10px 22px;border-radius:12px;border:0;font-weight:700;color:#2a0f1a;background:linear-gradient(135deg,#f6dd8a,#c99a2e);cursor:pointer;box-shadow:0 0 16px #e6c35c55;transition:.2s}
+  .btn:hover{box-shadow:0 0 28px #e6c35caa;transform:translateY(-1px)}.btn:disabled{opacity:.4;pointer-events:none}
+  .btn.em2{background:linear-gradient(135deg,#34d399,#047857);color:#fff;box-shadow:0 0 16px #10b98166}
+  .btn2{padding:7px 12px;border-radius:10px;border:1px solid #10b98177;background:#10b98114;color:#6ee7b7;cursor:pointer;transition:.2s}.btn2:hover{box-shadow:0 0 14px #10b98166}.btn2:disabled{opacity:.35;pointer-events:none}.btn2.on{background:#10b981;color:#032}
+  .msg{min-height:44px;margin:4px 0 10px;padding:10px 14px;border-radius:12px;background:#0006;text-align:center;font-weight:600}.msg.win{color:#6ee7b7;box-shadow:0 0 20px #10b98155}.msg.lose{color:#fca5a5}
+  .bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0}
+  #bet{width:140px;padding:8px 10px;border-radius:10px;border:1px solid #e6c35c66;background:#0008;color:var(--gold);font-weight:700}
+  .chip{padding:6px 10px;border-radius:999px;border:2px dashed #e6c35c99;background:#7a1d2b;color:#fff;font-size:12px;cursor:pointer;transition:.15s}.chip:hover{transform:scale(1.1)}
+  .stage{position:relative;margin:14px auto}
+  .wheel{position:relative;border-radius:50%;border:6px solid var(--gold);box-shadow:0 0 30px #e6c35c55,inset 0 0 30px #000;transition:transform 5s cubic-bezier(.12,.6,.12,1)}
+  .wheel::after{content:"";position:absolute;inset:36%;border-radius:50%;background:radial-gradient(#f6dd8a,#8a6410);box-shadow:0 0 15px #000}
+  .wl{position:absolute;left:50%;top:50%;font-style:normal;font-weight:700;color:#fff;text-shadow:0 1px 2px #000}
+  .ptr{position:absolute;left:50%;top:-16px;transform:translateX(-50%);color:var(--gold);font-size:26px;z-index:3;filter:drop-shadow(0 0 6px #e6c35c)}
+  .orb{position:absolute;inset:0;transition:transform 5s cubic-bezier(.12,.6,.12,1);pointer-events:none;z-index:2}
+  .orb i{position:absolute;left:50%;top:16px;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff}
+  #rgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:12px}
+  .cell{position:relative;padding:8px 0;border-radius:6px;border:1px solid #fff2;color:#fff;font-weight:600;font-size:12px;cursor:pointer;background:#1d0b12}.cell:hover{outline:2px solid var(--gold)}
+  .cell b{position:absolute;right:-2px;top:-7px;font-size:9px;background:var(--gold);color:#222;border-radius:8px;padding:1px 4px;z-index:1}
+  .cell.w{grid-column:span 12}.cell.o{grid-column:span 4}.cell.o2{grid-column:span 2}
+  .rn{display:inline-block;min-width:24px;padding:2px 4px;border-radius:6px;font-size:12px;font-weight:700}
+  .coin3d{perspective:900px;height:160px;display:flex;justify-content:center;align-items:center}
+  #coin{width:120px;height:120px;position:relative;transform-style:preserve-3d;transition:transform 1.8s cubic-bezier(.2,.7,.2,1)}
+  .face{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 18px Cinzel,serif;color:#5a3d00;background:radial-gradient(circle at 30% 30%,#fff1b0,#d4a62a 60%,#8a6410);border:5px double #8a6410;backface-visibility:hidden;box-shadow:0 0 25px #e6c35c88}
+  .face.back{transform:rotateX(180deg)}.hop{animation:hop 1.8s}@keyframes hop{50%{transform:translateY(-60px)}}
+  .dice{display:flex;gap:20px;justify-content:center;margin:16px}
+  .die{width:90px;height:90px;border-radius:18px;background:linear-gradient(145deg,#fff,#d8d8d8);color:#111;font-size:72px;line-height:90px;box-shadow:0 8px 20px #000a}
+  .die.r{animation:tumble .15s linear infinite}@keyframes tumble{to{transform:rotate(360deg) scale(.9)}}
+  .hand{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0 22px;min-height:92px}
+  .pc{width:62px;height:92px;border-radius:10px;background:#fffdf5;color:#111;font:700 20px Inter,sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 6px 14px #000a;transition:.2s;position:relative;cursor:default}
+  .pc.rd{color:#c0283d}.pc .su{font-size:26px}.pc.dl{animation:deal .35s}@keyframes deal{from{opacity:0;transform:translateY(-30px) rotate(-8deg)}}
+  .pc.hold{transform:translateY(-12px);box-shadow:0 0 18px #34d399}.pc.hold::after{content:"HOLD";position:absolute;bottom:-18px;font-size:10px;color:#6ee7b7}
+  .pc.bk{background:repeating-linear-gradient(45deg,#7a1d2b,#7a1d2b 6px,#4a0f1a 6px,#4a0f1a 12px);border:3px solid #fffdf5}
+  #toasts{position:fixed;right:12px;top:calc(env(safe-area-inset-top,0px) + 76px);z-index:50;display:flex;flex-direction:column;gap:8px;max-width:280px}
+  .toast{padding:12px 16px;border-radius:12px;background:linear-gradient(135deg,#2a0f1a,#123a2c);border:1px solid var(--gold);box-shadow:0 0 25px #e6c35c66;animation:tin .5s,tout .5s 4.2s forwards}
+  @keyframes tin{from{transform:translateX(120%)}}@keyframes tout{to{opacity:0;transform:translateX(120%)}}
+  #modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;z-index:40;padding:16px}#modal.on{display:flex}
+  .mbox{max-width:460px;width:100%;max-height:85vh;overflow:auto}
+  .ar{display:flex;gap:12px;align-items:center;padding:10px;border-radius:12px;background:#0004;margin:8px 0;text-align:left}.ar.lk{opacity:.6;filter:grayscale(.7)}
+  .pb{height:5px;background:#fff2;border-radius:4px;margin-top:5px}.pb i{display:block;height:100%;background:var(--em);border-radius:4px}
+  /* ===== Luxe redesign ===== */
+  body{background-image:radial-gradient(900px 500px at 50% -5%,#6a1428aa,transparent 70%),linear-gradient(45deg,#ffffff07 25%,transparent 25% 75%,#ffffff07 75%),linear-gradient(45deg,#ffffff07 25%,transparent 25% 75%,#ffffff07 75%),radial-gradient(#2a0a13,#0b0307);background-size:auto,32px 32px,32px 32px,auto;background-position:0 0,0 0,16px 16px,0 0}
+  body::after{content:"♠";position:fixed;right:-50px;bottom:-90px;font-size:360px;color:#e6c35c0a;pointer-events:none;z-index:0}
+  main,#tabs{position:relative;z-index:1}
+  .hdr{background:linear-gradient(#1a0810f2,#0d0508f2);border-bottom:1px solid var(--gold);box-shadow:0 6px 30px #000a,0 1px 0 #e6c35c55}
+  .logo{font-size:22px;filter:drop-shadow(0 0 10px #e6c35c88);animation:glow 3s ease-in-out infinite alternate}@keyframes glow{to{filter:drop-shadow(0 0 20px #f6dd8a)}}
+  .bal{background:#0008;border:1px solid #e6c35c88;border-radius:16px;padding:4px 20px;box-shadow:0 0 22px #e6c35c33,inset 0 0 14px #e6c35c22}
+  h2{display:flex;align-items:center;justify-content:center;gap:12px;font-size:24px;letter-spacing:.08em;text-shadow:0 0 14px #e6c35c66}
+  h2::before,h2::after{content:"";height:1px;width:44px;background:linear-gradient(90deg,transparent,var(--gold))}h2::after{transform:scaleX(-1)}
+  .tab{font-weight:600;padding:10px 18px;background:linear-gradient(#2a0f1a,#150709);border-color:#e6c35c66}.tab:hover{transform:translateY(-2px);box-shadow:0 0 14px #e6c35c55}
+  .card{margin:12px 8px 0;padding:22px 14px;background:radial-gradient(ellipse at 50% 0%,#14735a 0,#0b4634 50%,#062a1f 100%);border:1px solid #f6dd8a;box-shadow:0 0 0 6px #1a0a10,0 0 0 7px #e6c35c99,0 24px 60px #000c,inset 0 0 90px #000a}
+  .mbox{background:linear-gradient(160deg,#3a1220,#1d0b12)}
+  .bar{background:#0007;border:1px solid #e6c35c44;border-radius:18px;padding:10px 14px;backdrop-filter:blur(6px);box-shadow:0 8px 24px #0008}
+  .msg{border:1px solid #e6c35c33;background:linear-gradient(90deg,#0000,#000a,#0000);font-size:15px}
+  .btn{position:relative;overflow:hidden;padding:12px 28px;font-size:15px;letter-spacing:.04em;border-radius:14px;border:1px solid #fff8}
+  .btn::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff8,transparent);transform:skewX(-20deg);animation:shine 3.2s infinite}@keyframes shine{to{left:140%}}
+  .chip{width:48px;height:48px;padding:0;margin:3px;border-radius:50%;border:3px dashed #ffffffcc;font:700 11px Inter,sans-serif;background:var(--c,#7a1d2b);box-shadow:0 0 0 3px var(--c,#7a1d2b),0 5px 10px #000a}
+  #chips .chip:nth-child(2){--c:#0f7a55}#chips .chip:nth-child(3){--c:#1c5fb5}#chips .chip:nth-child(4){--c:#6c3fb5}#chips .chip:nth-child(5){--c:#17171b}#chips .chip:nth-child(6){--c:#b8902a}#chips .chip:nth-child(n+7){--c:#444;width:auto;padding:0 14px;border-radius:24px}
+  .stage{margin:34px auto}.stage::before{content:"";position:absolute;inset:-20px;border-radius:50%;background:repeating-conic-gradient(#e6c35c 0 2deg,#3a1a0a 2deg 6deg);box-shadow:0 0 40px #e6c35c55,0 14px 30px #000}.ptr{top:-30px;font-size:30px}
+  .cell{border:1px solid #e6c35caa;border-radius:8px;padding:10px 0;font:700 13px Cinzel,serif}
+  .pc{width:68px;height:98px}
+  .dice{gap:28px;margin:22px}
+  .die{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:13px;width:100px;height:100px;font-size:0;line-height:0;border-radius:22px;background:linear-gradient(145deg,#fff,#cfcfcf);box-shadow:0 14px 24px #000c,inset -4px -6px 10px #0003,inset 3px 3px 6px #fff}
+  .die s{display:block;margin:2px;border-radius:50%;text-decoration:none}.die s.on{background:radial-gradient(circle at 35% 30%,#555,#000);box-shadow:inset 0 2px 3px #fff4}
+  .dsum{font:800 46px Cinzel,serif;color:var(--gold);text-shadow:0 0 20px #e6c35c88;margin:4px 0 14px}
+  .pks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+  .pk{flex:1;min-width:92px;max-width:170px;padding:12px 8px;border-radius:14px;border:2px solid #e6c35c55;background:#0007;color:var(--txt);cursor:pointer;display:flex;flex-direction:column;gap:2px;transition:.2s}
+  .pk b{font:700 15px Cinzel,serif}.pk span{font-size:12px;color:#6ee7b7}.pk i{font-style:normal;font-size:11px;color:var(--mut)}
+  .pk.on{border-color:var(--gold);background:linear-gradient(#e6c35c33,#0007);box-shadow:0 0 22px #e6c35c66;transform:translateY(-3px)}
+  </style>
+</head>
+<body>
+<header class="hdr">
+ <div class="logo">♛ ЗОЛОТА САВАНА</div>
+ <div class="bal"><small>БАЛАНС</small><br><span id="bal">10 000</span><em>ZWD</em></div>
+ <div class="flex gap-2"><button class="btn2" id="bAch">🏆 <span id="achN"></span></button><button class="btn2" id="bImf">🆘 МВФ</button><button class="btn2" id="bMute">🔊</button></div>
+</header>
+
+<nav id="tabs">
+ <button class="tab on" data-g="roul">🎡 Рулетка</button>
+ <button class="tab" data-g="coin">🪙 Монетка</button>
+ <button class="tab" data-g="dice">🎲 Кубики</button>
+ <button class="tab" data-g="bj">♠ Блекджек</button>
+ <button class="tab" data-g="wheel">🎯 Колесо Фортуни</button>
+</nav>
+
+<main>
+ <div id="msg" class="msg">Ласкаво просимо! Оберіть гру та зробіть ставку.</div>
+ <div class="bar"><span class="mut">Ставка, ZWD</span><input id="bet" inputmode="numeric" value="1000"><span id="betf" class="mut"></span><div id="chips" class="flex flex-wrap gap-1"></div></div>
+
+ <section id="g-roul" class="card g on"><h2>Європейська рулетка</h2>
+  <div class="stage" style="width:260px;height:260px"><div class="ptr">▼</div><div class="wheel" id="rw"></div><div class="orb" id="orb"><i></i></div></div>
+  <div id="rlast" class="flex gap-1 justify-center flex-wrap"></div>
+  <div id="rgrid"></div>
+  <div class="mt-3 flex gap-2 justify-center"><button class="btn" id="rSpin">Крутити</button><button class="btn2" id="rClr">Очистити ставки</button></div>
+  <p class="mut" style="font-size:12px">Клік по полю додає ставку. Число ×36, кольори/парність ×2, дюжини ×3.</p>
+ </section>
+
+ <section id="g-coin" class="card g"><h2>Орел чи Решка</h2>
+  <div class="coin3d" id="c3"><div id="coin"><div class="face">ОРЕЛ</div><div class="face back">РЕШКА</div></div></div>
+  <div class="flex gap-2 justify-center my-3"><button class="btn2 sd on" data-s="0">Орел</button><button class="btn2 sd" data-s="1">Решка</button></div>
+  <button class="btn" id="cGo">Підкинути · ×1.95</button>
+ </section>
+
+ <section id="g-dice" class="card g"><h2>Кубики</h2>
+  <p class="mut">Оберіть прогноз для суми двох кубиків і киньте</p>
+  <div class="dice"><div class="die" id="d1"></div><div class="die" id="d2"></div></div>
+  <div class="dsum" id="dSum">—</div>
+  <div id="dpk" class="pks"><button class="pk" data-p="u"><b>Менше 7</b><span>2–6 · ×2.3</span><i>шанс 42%</i></button><button class="pk" data-p="s"><b>Рівно 7</b><span>×5.5</span><i>шанс 17%</i></button><button class="pk on" data-p="o"><b>Більше 7</b><span>8–12 · ×2.3</span><i>шанс 42%</i></button></div>
+  <button class="btn" id="dGo">🎲 Кинути кубики</button>
+ </section>
+
+ <section id="g-bj" class="card g"><h2>Блекджек</h2>
+  <div class="mut">Дилер: <b id="bdv">—</b></div><div class="hand" id="bd"></div>
+  <div class="mut">Ви: <b id="bpv">—</b></div><div class="hand" id="bp"></div>
+  <div class="flex gap-2 justify-center flex-wrap"><button class="btn" id="bDeal">Роздати</button><button class="btn em2" id="bHit">Взяти</button><button class="btn em2" id="bStd">Стійка</button><button class="btn2" id="bDbl">Подвоїти</button></div>
+  <p class="mut" style="font-size:12px">Блекджек ×2.5 · перемога ×2 · дилер стоїть на 17</p>
+ </section>
+
+ <section id="g-wheel" class="card g"><h2>Колесо Фортуни</h2>
+  <div class="stage" style="width:300px;height:300px"><div class="ptr">▼</div><div class="wheel" id="fw"></div></div>
+  <button class="btn" id="fGo">Крутити колесо</button>
+ </section>
+</main>
+
+<div id="toasts"></div>
+<div id="modal"><div class="card mbox"><h2>🏆 Досягнення</h2><div class="mut">Максимальний баланс: <b id="mmax"></b> ZWD</div><div id="mlist"></div><button class="btn mt-3" id="mx">Закрити</button></div></div>
+
+<script src="script.js"></script>
+</body>
+</html>
